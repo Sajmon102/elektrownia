@@ -22,11 +22,15 @@ function createQuizServer(options = {}) {
     if (!['http:', 'https:'].includes(u.protocol) || u.pathname !== '/' || u.search || u.hash || u.username || u.password) throw new Error('PUBLIC_URL musi być pełnym adresem serwera bez ścieżki, np. https://quiz.example.pl');
   }
   app.use(express.static(path.join(__dirname, 'public')));
-  for (const route of ['/', '/play', '/play/:code']) app.get(route, (_req, res) => res.sendFile(path.join(__dirname, 'public/player.html')));
+  for (const route of ['/quiz', '/play', '/play/:code']) app.get(route, (_req, res) => res.sendFile(path.join(__dirname, 'public/player.html')));
   app.get('/host', (_req, res) => res.sendFile(path.join(__dirname, 'public/host.html')));
   app.get('/health', (_req, res) => res.json({ ok: true }));
   function baseFor(socket) {
-    if (publicUrl) return new URL(publicUrl).origin;
+    if (publicUrl) {
+      const configured = new URL(publicUrl);
+      try { const origin = new URL(socket.handshake.headers.origin); if (origin.protocol === 'https:' && origin.hostname === configured.hostname) configured.protocol = 'https:'; } catch {}
+      return configured.origin;
+    }
     const u = new URL(socket.handshake.headers.origin || `http://${socket.handshake.headers.host}`);
     if (!['http:', 'https:'].includes(u.protocol)) throw new Error('Nieprawidłowy adres serwera.');
     if (['localhost', '127.0.0.1', '[::1]'].includes(u.hostname)) u.hostname = options.lanAddress || lanAddresses()[0] || 'localhost';
@@ -48,7 +52,7 @@ function createQuizServer(options = {}) {
   function closeQuestion(r) {
     if (r.status !== 'question') return;
     clearTimeout(r.timer); r.status = 'results'; r.deadline = null;
-    const q = questions[r.questionIndex], counts = [0, 0, 0, 0];
+    const q = questions[r.questionIndex], counts = Array(q.a.length).fill(0);
     for (const answer of r.answers.values()) counts[answer]++;
     r.results = { counts, correct: q.correct, correctText: q.a[q.correct], leaderboard: board(r), questionText: q.q }; sendState(r);
   }
@@ -140,7 +144,7 @@ function createQuizServer(options = {}) {
       const r = bound(socket), p = r.players.get(socket.data.playerId);
       if (!p || p.socketId !== socket.id || r.status !== 'question' || r.answers.has(p.id)) throw new Error('Nie można już wysłać odpowiedzi.');
       if (Date.now() >= r.deadline) { closeQuestion(r); throw new Error('Czas na odpowiedź minął.'); }
-      if (!Number.isInteger(data.answer) || data.answer < 0 || data.answer > 3) throw new Error('Nieprawidłowa odpowiedź.');
+      if (!Number.isInteger(data.answer) || data.answer < 0 || data.answer >= questions[r.questionIndex].a.length) throw new Error('Nieprawidłowa odpowiedź.');
       if (data.questionIndex !== r.questionIndex) throw new Error('To odpowiedź do poprzedniego pytania.');
       r.answers.set(p.id, data.answer);
       if (data.answer === questions[r.questionIndex].correct) p.score += 1000;
