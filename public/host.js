@@ -1,12 +1,13 @@
 (() => {
-  const { $, socket, rpc, esc, format, read, save, notice } = Quiz;
+  const { $, socket, rpc, esc, format, read, save, notice, sound } = Quiz;
   let session = read('quiz-host'), current, clockOffset = 0;
   const entry = document.createElement('p'); $('roomInfo').prepend(entry);
   const help = document.createElement('p');
-  help.className = 'muted'; help.textContent = 'Telefon i komputer muszą być w tej samej sieci Wi-Fi. Dla osób z innych sieci użyj serwera z publicznym adresem. Przy kilku kartach sieciowych ustaw PUBLIC_URL na adres dostępny dla uczniów.';
+  help.className = 'muted'; help.textContent = 'Uczestnicy mogą dołączyć przez internet pod adresem podanym powyżej lub zeskanować kod QR.';
   $('roomInfo').append(help);
   $('qr').alt = 'Zeskanuj, aby dołączyć do tego quizu';
   const timer = document.createElement('p'); timer.className = 'big'; $('game').append(timer);
+  const meter = document.createElement('div'); meter.className = 'game-progress'; meter.setAttribute('aria-hidden', 'true'); meter.innerHTML = '<span></span>'; $('game').prepend(meter);
   const end = document.createElement('button'); end.textContent = 'Zamknij quiz / nowa gra'; end.className = 'secondary'; end.hidden = true; document.querySelector('main').append(end);
   const show = id => ['lobby', 'game', 'results', 'finished'].forEach(x => $(x).classList.toggle('hidden', x !== id));
   function table(list) { return '<table><tr><th>Miejsce</th><th>Uczeń</th><th>Punkty</th></tr>' + list.map(p => `<tr><td>${p.place}</td><td>${esc(p.name)}</td><td>${p.score}</td></tr>`).join('') + '</table>'; }
@@ -17,7 +18,7 @@
   function accept(r) {
     session = { code: r.code, token: r.token }; save('quiz-host', session);
     $('code').textContent = format(r.code); $('qr').src = r.qr; $('joinLink').href = r.joinUrl; $('joinLink').textContent = r.joinUrl;
-    entry.textContent = `Otwórz ${r.entryUrl} i wpisz kod ${format(r.code)} lub zeskanuj QR.`;
+    entry.textContent = `Otwórz ${r.entryUrl}/quiz i wpisz kod ${format(r.code)} lub zeskanuj QR.`;
     $('roomInfo').classList.remove('hidden'); $('create').hidden = true; end.hidden = false; render(r.state);
   }
   async function action(button, event, data, after) {
@@ -45,7 +46,11 @@
   }
   function render(s) {
     if (!session || s.code !== session.code) return;
+    if (current?.status !== s.status || current?.questionIndex !== s.questionIndex) {
+      if (['question', 'results', 'finished'].includes(s.status)) sound(s.status);
+    }
     current = s; clockOffset = s.serverNow - Date.now(); controls();
+    meter.firstElementChild.style.width = `${Math.max(0, Math.min(100, (s.questionIndex + 1) / s.total * 100))}%`;
     $('count').textContent = s.players.filter(p => p.connected).length;
     $('players').innerHTML = s.players.map(p => `<span class="player">${esc(p.name)}${p.connected ? '' : ' (rozłączony)'} ${p.answered ? '✓' : ''}</span>`).join('');
     if (s.status === 'lobby') { show('lobby'); $('msg').textContent = 'Czekamy na uczniów…'; }
@@ -78,7 +83,7 @@
   });
   socket.on('disconnect', () => { $('create').disabled = true; controls(); });
   socket.on('state', render);
-  socket.on('reaction', r => { $('reaction').textContent = `${r.emoji} ${r.name}`; });
+  socket.on('reaction', r => { $('reaction').textContent = `${r.emoji} ${r.name}`; Quiz.floatReaction(r.emoji, r.name); });
   socket.on('room:closed', r => reset(r.message));
   setInterval(tick, 200);
 })();

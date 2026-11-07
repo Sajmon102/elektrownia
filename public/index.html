@@ -1,0 +1,774 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATOM ENERGY - Elektrownie jądrowe</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b141d;
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    background: #080f16;
+    padding: 20px 7%;
+    border-bottom: 1px solid #263746;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #35d6a0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header-info {
+    color: #a8bac7;
+    font-size: 13px;
+}
+
+.progress-container {
+    height: 5px;
+    background: #253542;
+}
+
+.progress {
+    height: 5px;
+    width: 6.25%;
+    background: #35d6a0;
+    transition: 0.3s;
+}
+
+main {
+    max-width: 1050px;
+    margin: 45px auto;
+    padding: 0 25px;
+    min-height: 550px;
+}
+
+.page {
+    display: none;
+    animation: appear 0.35s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes appear {
+    from {opacity: 0; transform: translateY(12px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.page-number {
+    color: #35d6a0;
+    font-weight: bold;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: #35d6a0;
+    margin: 28px 0 12px;
+}
+
+p {
+    color: #c6d3dc;
+    line-height: 1.8;
+    font-size: 17px;
+    margin-bottom: 15px;
+}
+
+.info-box {
+    background: #172a36;
+    border-left: 4px solid #35d6a0;
+    padding: 22px;
+    margin: 25px 0;
+    border-radius: 7px;
+    line-height: 1.8;
+    color: #d8e5ed;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.card {
+    background: #172630;
+    border: 1px solid #304451;
+    padding: 22px;
+    border-radius: 10px;
+}
+
+.card h3 {
+    color: #35d6a0;
+    margin-bottom: 12px;
+}
+
+.card p {
+    font-size: 15px;
+    margin: 0;
+}
+
+.big-icon {
+    font-size: 55px;
+    margin: 20px 0;
+}
+
+ul {
+    margin: 15px 0 15px 25px;
+    color: #c6d3dc;
+    line-height: 2;
+    font-size: 16px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 45px;
+    padding: 25px 0;
+    border-top: 1px solid #304451;
+}
+
+button {
+    background: #35d6a0;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #071a15;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #20ae7e;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background: #34434e;
+    color: #82919b;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.page-counter {
+    color: #b8c9d5;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #8295a3;
+    background: #080f16;
+    margin-top: 20px;
+}
+
+/* QUIZ */
+
+.question {
+    background: #172630;
+    border: 1px solid #304451;
+    padding: 23px;
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+.question h3 {
+    margin-bottom: 15px;
+    color: #35d6a0;
+}
+
+.answer {
+    display: block;
+    background: #243744;
+    padding: 13px;
+    margin: 9px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #e2edf3;
+    transition: 0.2s;
+}
+
+.answer:hover {
+    background: #304b59;
+}
+
+.answer input {
+    margin-right: 10px;
+    accent-color: #35d6a0;
+}
+
+.result {
+    display: none;
+    background: #17372e;
+    border: 1px solid #35d6a0;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 25px;
+}
+
+.result h2 {
+    margin-top: 0;
+}
+
+@media(max-width: 650px) {
+    header {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    main {
+        margin-top: 30px;
+    }
+
+    .navigation {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">⚛ ATOM ENERGY</div>
+    <div class="header-info">EDUKACYJNA PODRÓŻ PO ENERGII JĄDROWEJ</div>
+</header>
+
+<div class="progress-container">
+    <div class="progress" id="progress"></div>
+</div>
+
+<main>
+
+<!-- STRONA 1 -->
+<div class="page active">
+<div class="page-number">STRONA 01 / 16</div>
+<h1>Energia jądrowa – poznaj przyszłość energetyki</h1>
+<div class="big-icon">⚛️</div>
+<p>Witaj na stronie edukacyjnej ATOM ENERGY! W ciągu 15 stron poznasz tajemnice elektrowni jądrowych, dowiesz się, jak powstaje energia atomowa oraz dlaczego jest tak ważna dla współczesnego świata.</p>
+<div class="info-box">
+<strong>Twoja misja:</strong><br>
+Poznaj działanie elektrowni jądrowej, jej zalety, zagrożenia oraz przyszłość energetyki atomowej. Na samym końcu czeka na Ciebie quiz!
+</div>
+<h2>Co znajdziesz na stronie?</h2>
+<div class="cards">
+<div class="card"><h3>⚛ Nauka</h3><p>Dowiesz się, czym jest energia jądrowa.</p></div>
+<div class="card"><h3>🏭 Technologia</h3><p>Poznasz budowę i działanie reaktorów.</p></div>
+<div class="card"><h3>🌍 Przyszłość</h3><p>Poznasz znaczenie atomu dla świata.</p></div>
+</div>
+</div>
+
+<!-- STRONA 2 -->
+<div class="page">
+<div class="page-number">STRONA 02 / 16</div>
+<h1>Czym jest elektrownia jądrowa?</h1>
+<p>Elektrownia jądrowa to zakład przemysłowy, który produkuje energię elektryczną, wykorzystując energię uwalnianą podczas reakcji jądrowych.</p>
+<p>Najczęściej paliwem jest uran. W specjalnym urządzeniu nazywanym reaktorem zachodzi kontrolowane rozszczepienie jąder atomowych.</p>
+<div class="info-box">
+<strong>Ważne!</strong><br>
+Elektrownia jądrowa nie spala węgla ani gazu w celu produkcji ciepła. Wykorzystuje energię pochodzącą z jąder atomowych.
+</div>
+<h2>Do czego służy?</h2>
+<div class="cards">
+<div class="card"><h3>⚡ Energia</h3><p>Produkuje prąd dla gospodarstw domowych.</p></div>
+<div class="card"><h3>🏭 Przemysł</h3><p>Dostarcza energię zakładom produkcyjnym.</p></div>
+<div class="card"><h3>🏙 Miasta</h3><p>Pomaga zasilać infrastrukturę i transport.</p></div>
+</div>
+</div>
+
+<!-- STRONA 3 -->
+<div class="page">
+<div class="page-number">STRONA 03 / 16</div>
+<h1>Historia energii jądrowej</h1>
+<p>Historia energetyki jądrowej rozpoczęła się dzięki odkryciom naukowców badających budowę atomu.</p>
+<h2>Najważniejsze wydarzenia</h2>
+<div class="info-box">
+<strong>1896</strong> – Henri Becquerel odkrywa zjawisko promieniotwórczości.<br><br>
+<strong>1938</strong> – Otto Hahn i Fritz Strassmann odkrywają rozszczepienie uranu.<br><br>
+<strong>1942</strong> – Enrico Fermi i jego zespół uruchamiają pierwszy kontrolowany łańcuchowy proces rozszczepienia.<br><br>
+<strong>1954</strong> – W Obnińsku w ZSRR uruchomiono pierwszą elektrownię jądrową dostarczającą energię do publicznej sieci.<br><br>
+<strong>1956</strong> – Rozpoczyna pracę elektrownia Calder Hall w Wielkiej Brytanii.
+</div>
+<p>Od tamtej pory technologia reaktorów rozwijała się, a energetyka jądrowa stała się ważną częścią systemów energetycznych wielu państw.</p>
+</div>
+
+<!-- STRONA 4 -->
+<div class="page">
+<div class="page-number">STRONA 04 / 16</div>
+<h1>Jak działa atom?</h1>
+<p>Atom to podstawowa jednostka budująca materię. Składa się z jądra atomowego oraz elektronów znajdujących się wokół niego.</p>
+<div class="cards">
+<div class="card"><h3>Protony</h3><p>Cząstki o dodatnim ładunku elektrycznym znajdujące się w jądrze.</p></div>
+<div class="card"><h3>Neutrony</h3><p>Cząstki bez ładunku elektrycznego znajdujące się w jądrze.</p></div>
+<div class="card"><h3>Elektrony</h3><p>Cząstki o ujemnym ładunku elektrycznym.</p></div>
+</div>
+<h2>Skąd bierze się energia?</h2>
+<p>W niektórych reakcjach jądrowych niewielka część masy układu zamienia się w energię. Opisuje to słynny wzór Alberta Einsteina:</p>
+<div class="info-box" style="text-align:center;font-size:28px;color:#35d6a0;">
+E = mc²
+</div>
+<p>Oznacza to, że masa i energia są ze sobą powiązane.</p>
+</div>
+
+<!-- STRONA 5 -->
+<div class="page">
+<div class="page-number">STRONA 05 / 16</div>
+<h1>Rozszczepienie jądra atomowego</h1>
+<p>Rozszczepienie jądra atomowego polega na podziale ciężkiego jądra na dwa lub więcej mniejszych jąder. Podczas tego procesu uwalnia się energia oraz neutrony.</p>
+<h2>Jak przebiega reakcja?</h2>
+<div class="info-box">
+1. Neutron zostaje pochłonięty przez jądro uranu.<br><br>
+2. Jądro staje się niestabilne.<br><br>
+3. Rozpada się na mniejsze fragmenty.<br><br>
+4. Uwalniają się energia i kolejne neutrony.
+</div>
+<p>Neutrony mogą wywoływać następne rozszczepienia. W ten sposób powstaje reakcja łańcuchowa.</p>
+<div class="info-box">
+<strong>Ciekawostka:</strong><br>
+Podczas rozszczepienia jednego jądra atomowego uwalnia się bardzo dużo energii w porównaniu z typowymi reakcjami chemicznymi.
+</div>
+</div>
+
+<!-- STRONA 6 -->
+<div class="page">
+<div class="page-number">STRONA 06 / 16</div>
+<h1>Reaktor jądrowy</h1>
+<p>Reaktor jest najważniejszym elementem elektrowni jądrowej. To właśnie w nim zachodzi kontrolowana reakcja łańcuchowa.</p>
+<h2>Główne elementy reaktora</h2>
+<div class="cards">
+<div class="card"><h3>☢ Paliwo</h3><p>Zawiera materiał rozszczepialny, najczęściej uran.</p></div>
+<div class="card"><h3>Kontrolery reakcji</h3><p>Pręty kontrolne pochłaniają neutrony i pomagają regulować reakcję.</p></div>
+<div class="card"><h3>Chłodziwo</h3><p>Odbiera ciepło z rdzenia reaktora.</p></div>
+<div class="card"><h3>Osłony</h3><p>Ograniczają wydostawanie się promieniowania na zewnątrz.</p></div>
+</div>
+<div class="info-box">
+Reaktor pracuje w kontrolowanych warunkach. Systemy bezpieczeństwa mają utrzymywać odpowiednie parametry jego działania.
+</div>
+</div>
+
+<!-- STRONA 7 -->
+<div class="page">
+<div class="page-number">STRONA 07 / 16</div>
+<h1>Paliwo jądrowe</h1>
+<p>Najczęściej wykorzystywanym paliwem w elektrowniach jądrowych jest uran. Jest to pierwiastek chemiczny występujący naturalnie w skorupie ziemskiej.</p>
+<h2>Jak wygląda paliwo?</h2>
+<p>Uran jest przetwarzany i wykorzystywany w postaci specjalnych ceramicznych pastylek paliwowych. Pastylki umieszcza się w metalowych rurkach, które tworzą pręty paliwowe.</p>
+<div class="info-box">
+<strong>Ważne informacje:</strong><br>
+- Uran występuje w przyrodzie.<br>
+- Paliwo musi być odpowiednio przygotowane.<br>
+- Z czasem ulega wypaleniu i wymaga wymiany.<br>
+- Zużyte paliwo nadal zawiera materiały promieniotwórcze.
+</div>
+<h2>Inne paliwa</h2>
+<p>W niektórych typach reaktorów można wykorzystywać również pluton lub tor w odpowiednich cyklach paliwowych.</p>
+</div>
+
+<!-- STRONA 8 -->
+<div class="page">
+<div class="page-number">STRONA 08 / 16</div>
+<h1>Jak powstaje prąd?</h1>
+<p>Elektrownia jądrowa zamienia energię jądrową w energię cieplną, mechaniczną, a następnie elektryczną.</p>
+<div class="cards">
+<div class="card"><h3>01. Reaktor</h3><p>Wytwarza ciepło dzięki rozszczepieniu jąder atomowych.</p></div>
+<div class="card"><h3>02. Para wodna</h3><p>Ciepło jest wykorzystywane do wytwarzania pary.</p></div>
+<div class="card"><h3>03. Turbina</h3><p>Para wprawia w ruch łopatki turbiny.</p></div>
+<div class="card"><h3>04. Generator</h3><p>Ruch turbiny napędza generator produkujący prąd.</p></div>
+<div class="card"><h3>05. Sieć</h3><p>Energia trafia przez transformatory do sieci energetycznej.</p></div>
+</div>
+<div class="info-box">
+<strong>Zapamiętaj:</strong><br>
+Reaktor nie produkuje bezpośrednio prądu. Dostarcza ciepło, które napędza cały proces wytwarzania energii elektrycznej.
+</div>
+</div>
+
+<!-- STRONA 9 -->
+<div class="page">
+<div class="page-number">STRONA 09 / 16</div>
+<h1>Chłodzenie elektrowni</h1>
+<p>Podczas pracy elektrowni powstaje dużo ciepła. Dlatego niezbędne są systemy chłodzenia, które odprowadzają nadmiar energii cieplnej.</p>
+<h2>Wieże chłodnicze</h2>
+<p>Charakterystyczne wysokie konstrukcje, które można zobaczyć przy wielu elektrowniach, to chłodnie kominowe.</p>
+<p>W wielu chłodniach ciepło jest odprowadzane przez kontakt wody z powietrzem. Widoczna biała chmura to przede wszystkim skroplona para wodna, a nie dym z palenia paliwa.</p>
+<div class="info-box">
+<strong>Ciekawostka:</strong><br>
+Nie każda elektrownia jądrowa posiada ogromne chłodnie kominowe. Niektóre korzystają z innych systemów chłodzenia.
+</div>
+<h2>Dlaczego chłodzenie jest ważne?</h2>
+<p>Utrzymuje odpowiednią temperaturę urządzeń i umożliwia bezpieczną pracę elektrowni.</p>
+</div>
+
+<!-- STRONA 10 -->
+<div class="page">
+<div class="page-number">STRONA 10 / 16</div>
+<h1>Rodzaje reaktorów</h1>
+<p>Na świecie istnieje wiele rodzajów reaktorów jądrowych. Różnią się konstrukcją, chłodziwem oraz sposobem przekazywania ciepła.</p>
+<div class="cards">
+<div class="card"><h3>PWR</h3><p>Reaktor wodny ciśnieniowy. Woda pod wysokim ciśnieniem odbiera ciepło z rdzenia.</p></div>
+<div class="card"><h3>BWR</h3><p>Reaktor wodny wrzący. Woda wrze bezpośrednio w zbiorniku reaktora.</p></div>
+<div class="card"><h3>CANDU</h3><p>Reaktor wykorzystujący ciężką wodę jako moderator, a także jako chłodziwo.</p></div>
+<div class="card"><h3>SMR</h3><p>Małe reaktory modułowe projektowane z myślą o mniejszej mocy pojedynczej jednostki.</p></div>
+</div>
+<div class="info-box">
+Nie wszystkie nowe projekty reaktorów są już komercyjnie wykorzystywane. Część z nich znajduje się na etapie badań i rozwoju.
+</div>
+</div>
+
+<!-- STRONA 11 -->
+<div class="page">
+<div class="page-number">STRONA 11 / 16</div>
+<h1>Bezpieczeństwo elektrowni</h1>
+<p>Bezpieczeństwo jest jednym z najważniejszych elementów projektowania i eksploatacji elektrowni jądrowych.</p>
+<h2>Jak chroni się elektrownię?</h2>
+<div class="cards">
+<div class="card"><h3>🛡 Obudowa bezpieczeństwa</h3><p>Chroni reaktor i pomaga ograniczyć uwolnienie substancji promieniotwórczych.</p></div>
+<div class="card"><h3>🌡 Chłodzenie awaryjne</h3><p>Pomaga odprowadzać ciepło w sytuacjach awaryjnych.</p></div>
+<div class="card"><h3>⚙ Automatyka</h3><p>Monitoruje parametry i może automatycznie wyłączyć reaktor.</p></div>
+<div class="card"><h3>👨‍🔬 Personel</h3><p>Pracownicy przechodzą specjalistyczne szkolenia.</p></div>
+</div>
+<p>Nowoczesne elektrownie wykorzystują wiele niezależnych zabezpieczeń. Mimo to ryzyko awarii nigdy nie jest całkowicie zerowe.</p>
+</div>
+
+<!-- STRONA 12 -->
+<div class="page">
+<div class="page-number">STRONA 12 / 16</div>
+<h1>Odpady promieniotwórcze</h1>
+<p>Podczas pracy elektrowni powstają odpady promieniotwórcze. Muszą być odpowiednio segregowane, zabezpieczane i przechowywane.</p>
+<h2>Rodzaje odpadów</h2>
+<div class="cards">
+<div class="card"><h3>Niskoaktywne</h3><p>Na przykład niektóre zużyte materiały ochronne i narzędzia.</p></div>
+<div class="card"><h3>Średnioaktywne</h3><p>Materiały wymagające bardziej zaawansowanych metod izolacji.</p></div>
+<div class="card"><h3>Wysokoaktywne</h3><p>Między innymi zużyte paliwo jądrowe, jeśli jest przeznaczone do składowania.</p></div>
+</div>
+<div class="info-box">
+<strong>Czy odpady są niebezpieczne?</strong><br>
+Mogą stanowić zagrożenie, dlatego wymagają specjalnych pojemników, kontroli i odpowiednio zaprojektowanych miejsc przechowywania.
+</div>
+<p>Niektóre materiały promieniotwórcze pozostają niebezpieczne przez bardzo długi czas.</p>
+</div>
+
+<!-- STRONA 13 -->
+<div class="page">
+<div class="page-number">STRONA 13 / 16</div>
+<h1>Zalety energii jądrowej</h1>
+<p>Energetyka jądrowa ma wiele zalet, dzięki którym jest wykorzystywana w licznych państwach.</p>
+<div class="cards">
+<div class="card"><h3>⚡ Duża produkcja</h3><p>Elektrownie mogą dostarczać bardzo duże ilości energii.</p></div>
+<div class="card"><h3>🌱 Niska emisja</h3><p>W trakcie eksploatacji emisje gazów cieplarnianych są bardzo niskie.</p></div>
+<div class="card"><h3>🌙 Praca przez całą dobę</h3><p>Produkcja energii nie zależy bezpośrednio od nasłonecznienia i wiatru.</p></div>
+<div class="card"><h3>🏭 Rozwój gospodarki</h3><p>Budowa i obsługa elektrowni tworzą miejsca pracy.</p></div>
+</div>
+<div class="info-box">
+Energetyka jądrowa może pomagać w ograniczaniu emisji CO₂ i zapewnianiu stabilnych dostaw energii.
+</div>
+</div>
+
+<!-- STRONA 14 -->
+<div class="page">
+<div class="page-number">STRONA 14 / 16</div>
+<h1>Wady i zagrożenia</h1>
+<p>Energia jądrowa nie jest pozbawiona wad. Jej wykorzystanie wiąże się z wyzwaniami technologicznymi, finansowymi i środowiskowymi.</p>
+<div class="cards">
+<div class="card"><h3>💰 Koszty</h3><p>Budowa elektrowni wymaga ogromnych nakładów finansowych.</p></div>
+<div class="card"><h3>☢ Odpady</h3><p>Odpady promieniotwórcze wymagają długotrwałego i bezpiecznego zarządzania.</p></div>
+<div class="card"><h3>⚠ Awarie</h3><p>Poważne awarie mogą mieć długotrwałe skutki dla ludzi i środowiska.</p></div>
+<div class="card"><h3>⏳ Czas budowy</h3><p>Przygotowanie i budowa elektrowni mogą trwać wiele lat.</p></div>
+</div>
+<div class="info-box">
+Energetyka jądrowa wymaga odpowiedniego nadzoru, dobrego planowania oraz wysokich standardów bezpieczeństwa.
+</div>
+</div>
+
+<!-- STRONA 15 -->
+<div class="page">
+<div class="page-number">STRONA 15 / 16</div>
+<h1>Energetyka jądrowa w Polsce</h1>
+<p>Polska planuje rozwój energetyki jądrowej, aby zwiększyć bezpieczeństwo energetyczne oraz ograniczyć emisję gazów cieplarnianych.</p>
+<h2>Pierwsza elektrownia jądrowa</h2>
+<p>Projekt pierwszej polskiej elektrowni jądrowej jest realizowany w lokalizacji Lubiatowo-Kopalino w gminie Choczewo, na Pomorzu.</p>
+<h2>Dlaczego Polska chce atomu?</h2>
+<div class="cards">
+<div class="card"><h3>⚡ Bezpieczeństwo</h3><p>Większa różnorodność źródeł energii.</p></div>
+<div class="card"><h3>🌍 Klimat</h3><p>Ograniczenie emisji dwutlenku węgla w energetyce.</p></div>
+<div class="card"><h3>🏭 Gospodarka</h3><p>Nowe inwestycje i miejsca pracy.</p></div>
+</div>
+<div class="info-box">
+<strong>Ważne:</strong><br>
+Pierwsza polska elektrownia jądrowa jest projektem w przygotowaniu i budowie. Polska nie posiada jeszcze działającej komercyjnej elektrowni jądrowej.
+</div>
+<h2>Co dalej?</h2>
+<p>Rozwój projektu będzie wymagał wielu lat pracy, testów, uzyskiwania zezwoleń oraz przygotowania wykwalifikowanej kadry.</p>
+</div>
+
+<!-- STRONA 16 - QUIZ -->
+<div class="page">
+<div class="page-number">STRONA 16 / 16</div>
+<h1>⚛ Quiz – sprawdź swoją wiedzę!</h1>
+<p>Gratulacje! Dotarłeś do końca materiału. Teraz sprawdź, ile zapamiętałeś. Odpowiedz na 10 pytań i zobacz swój wynik.</p>
+
+<form id="quizForm">
+
+<div class="question">
+<h3>1. Jakie paliwo jest najczęściej wykorzystywane w elektrowniach jądrowych?</h3>
+<label class="answer"><input type="radio" name="q1" value="a"> Węgiel</label>
+<label class="answer"><input type="radio" name="q1" value="b"> Uran</label>
+<label class="answer"><input type="radio" name="q1" value="c"> Drewno</label>
+</div>
+
+<div class="question">
+<h3>2. Gdzie zachodzi kontrolowana reakcja łańcuchowa?</h3>
+<label class="answer"><input type="radio" name="q2" value="a"> W generatorze</label>
+<label class="answer"><input type="radio" name="q2" value="b"> W chłodni</label>
+<label class="answer"><input type="radio" name="q2" value="c"> W reaktorze</label>
+</div>
+
+<div class="question">
+<h3>3. Co napędza turbinę w typowej elektrowni jądrowej?</h3>
+<label class="answer"><input type="radio" name="q3" value="a"> Para wodna</label>
+<label class="answer"><input type="radio" name="q3" value="b"> Piasek</label>
+<label class="answer"><input type="radio" name="q3" value="c"> Drewno</label>
+</div>
+
+<div class="question">
+<h3>4. Kto jest związany z odkryciem promieniotwórczości w 1896 roku?</h3>
+<label class="answer"><input type="radio" name="q4" value="a"> Albert Einstein</label>
+<label class="answer"><input type="radio" name="q4" value="b"> Henri Becquerel</label>
+<label class="answer"><input type="radio" name="q4" value="c"> Isaac Newton</label>
+</div>
+
+<div class="question">
+<h3>5. Co robią pręty kontrolne w reaktorze?</h3>
+<label class="answer"><input type="radio" name="q5" value="a"> Produkują paliwo</label>
+<label class="answer"><input type="radio" name="q5" value="b"> Wytwarzają parę</label>
+<label class="answer"><input type="radio" name="q5" value="c"> Pochłaniają neutrony</label>
+</div>
+
+<div class="question">
+<h3>6. Czy elektrownia jądrowa podczas produkcji prądu spala węgiel?</h3>
+<label class="answer"><input type="radio" name="q6" value="a"> Nie</label>
+<label class="answer"><input type="radio" name="q6" value="b"> Tak, zawsze</label>
+<label class="answer"><input type="radio" name="q6" value="c"> Tylko w nocy</label>
+</div>
+
+<div class="question">
+<h3>7. Co zamienia energię mechaniczną turbiny w energię elektryczną?</h3>
+<label class="answer"><input type="radio" name="q7" value="a"> Chłodnia</label>
+<label class="answer"><input type="radio" name="q7" value="b"> Generator</label>
+<label class="answer"><input type="radio" name="q7" value="c"> Reaktor</label>
+</div>
+
+<div class="question">
+<h3>8. Gdzie powstaje projekt pierwszej polskiej elektrowni jądrowej?</h3>
+<label class="answer"><input type="radio" name="q8" value="a"> W Warszawie</label>
+<label class="answer"><input type="radio" name="q8" value="b"> W Krakowie</label>
+<label class="answer"><input type="radio" name="q8" value="c"> W Lubiatowie-Kopalinie</label>
+</div>
+
+<div class="question">
+<h3>9. Jaki jest jeden z głównych problemów energetyki jądrowej?</h3>
+<label class="answer"><input type="radio" name="q9" value="a"> Zarządzanie odpadami promieniotwórczymi</label>
+<label class="answer"><input type="radio" name="q9" value="b"> Brak możliwości produkcji prądu</label>
+<label class="answer"><input type="radio" name="q9" value="c"> Zależność od światła słonecznego</label>
+</div>
+
+<div class="question">
+<h3>10. Co oznacza wzór E = mc²?</h3>
+<label class="answer"><input type="radio" name="q10" value="a"> Zależność prędkości od czasu</label>
+<label class="answer"><input type="radio" name="q10" value="b"> Związek masy i energii</label>
+<label class="answer"><input type="radio" name="q10" value="c"> Wzór na pole koła</label>
+</div>
+
+<button type="button" onclick="checkQuiz()">SPRAWDŹ WYNIK</button>
+<button type="button" onclick="resetQuiz()" style="margin-left:10px;background:#344b5b;color:white;">SPRÓBUJ PONOWNIE</button>
+
+</form>
+
+<div class="result" id="result">
+<h2 id="score"></h2>
+<p id="message"></p>
+<div id="answers"></div>
+</div>
+
+</div>
+
+<!-- NAWIGACJA -->
+<div class="navigation">
+<button id="prev" onclick="changePage(-1)" disabled>← Wstecz</button>
+<div class="page-counter" id="counter">Strona 1 z 16</div>
+<button id="next" onclick="changePage(1)">Dalej →</button>
+</div>
+
+</main>
+
+<footer>
+⚛ ATOM ENERGY | Edukacyjna strona o elektrowniach jądrowych
+<br><br>
+© 2026
+</footer>
+
+<script>
+let currentPage = 0;
+const pages = document.querySelectorAll(".page");
+const totalPages = pages.length;
+
+function showPage() {
+    pages.forEach((page, index) => {
+        page.classList.toggle("active", index === currentPage);
+    });
+
+    document.getElementById("counter").textContent =
+        "Strona " + (currentPage + 1) + " z " + totalPages;
+
+    document.getElementById("progress").style.width =
+        ((currentPage + 1) / totalPages * 100) + "%";
+
+    document.getElementById("prev").disabled = currentPage === 0;
+
+    document.getElementById("next").disabled =
+        currentPage === totalPages - 1;
+
+    document.getElementById("next").textContent =
+        currentPage === totalPages - 1 ? "Koniec" : "Dalej →";
+
+    window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function changePage(direction) {
+    currentPage += direction;
+
+    if (currentPage < 0) currentPage = 0;
+    if (currentPage >= totalPages) currentPage = totalPages - 1;
+
+    showPage();
+}
+
+const correctAnswers = {
+    q1: "b",
+    q2: "c",
+    q3: "a",
+    q4: "b",
+    q5: "c",
+    q6: "a",
+    q7: "b",
+    q8: "c",
+    q9: "a",
+    q10: "b"
+};
+
+function checkQuiz() {
+    let points = 0;
+    let details = "";
+
+    for (let i = 1; i <= 10; i++) {
+        const selected = document.querySelector(
+            'input[name="q' + i + '"]:checked'
+        );
+
+        if (selected && selected.value === correctAnswers["q" + i]) {
+            points++;
+            details += "<p style='color:#35d6a0'>Pytanie " + i + ": poprawnie ✓</p>";
+        } else {
+            details += "<p style='color:#ff7777'>Pytanie " + i +
+                ": błędnie ✗ – poprawna odpowiedź: " +
+                correctAnswers["q" + i].toUpperCase() + "</p>";
+        }
+    }
+
+    document.getElementById("score").textContent =
+        "Twój wynik: " + points + " / 10 punktów";
+
+    let message = "";
+
+    if (points === 10) {
+        message = "Fantastycznie! Znasz się na energetyce jądrowej!";
+    } else if (points >= 8) {
+        message = "Świetny wynik! Masz dużą wiedzę!";
+    } else if (points >= 6) {
+        message = "Dobrze! Ale możesz jeszcze trochę poćwiczyć.";
+    } else if (points >= 4) {
+        message = "Nieźle! Warto powtórzyć kilka stron.";
+    } else {
+        message = "Spróbuj ponownie po przeczytaniu materiału!";
+    }
+
+    document.getElementById("message").textContent = message;
+    document.getElementById("answers").innerHTML = details;
+    document.getElementById("result").style.display = "block";
+
+    document.getElementById("result").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+function resetQuiz() {
+    document.getElementById("quizForm").reset();
+    document.getElementById("result").style.display = "none";
+}
+
+// Dodatkowa opcja gry online i łagodne dźwięki interfejsu.
+(() => {
+    const style = document.createElement('style');
+    style.textContent = `.quiz-online-actions{position:fixed;top:12px;right:12px;z-index:9999;display:flex;gap:8px;align-items:center}.quiz-online-actions a,.quiz-online-actions button{display:inline-flex;align-items:center;justify-content:center;background:#006d63;color:white;border:1px solid #abf8e3;border-radius:12px;padding:10px 14px;font:700 14px Arial,sans-serif;text-decoration:none;cursor:pointer;box-shadow:0 5px 18px #0003}.quiz-online-actions a:hover,.quiz-online-actions button:hover{background:#008575}.quiz-online-actions a:focus-visible,.quiz-online-actions button:focus-visible{outline:3px solid #ffc857;outline-offset:2px}@media(max-width:600px){.quiz-online-actions{position:relative;top:auto;right:auto;justify-content:flex-end;padding:8px 12px;flex-wrap:wrap}.quiz-online-actions a,.quiz-online-actions button{padding:8px 10px;font-size:13px}}`;
+    document.head.appendChild(style);
+    const actions = document.createElement('div'); actions.className = 'quiz-online-actions';
+    const link = document.createElement('a'); link.href = '/quiz'; link.textContent = '🎮 Quiz online';
+    const toggle = document.createElement('button'); toggle.type = 'button';
+    let muted = false, context;
+    try { muted = localStorage.getItem('elektrownia-muted') === '1'; } catch {}
+    function label() { toggle.textContent = muted ? '🔇 Dźwięki wyłączone' : '🔊 Dźwięki włączone'; toggle.setAttribute('aria-pressed', String(!muted)); }
+    toggle.onclick = () => { muted = !muted; try { localStorage.setItem('elektrownia-muted', muted ? '1' : '0'); } catch {} label(); };
+    label(); actions.append(link, toggle); document.body.prepend(actions);
+    document.addEventListener('click', event => {
+        const target = event.target.closest('button, a, input[type=radio]');
+        if (!target || target === toggle || muted) return;
+        const Audio = window.AudioContext || window.webkitAudioContext; if (!Audio) return;
+        try {
+            context ||= new Audio(); context.resume().catch(() => {});
+            const osc = context.createOscillator(), gain = context.createGain(), now = context.currentTime;
+            let hash = 0; for (const c of (target.id || target.value || target.textContent)) hash = (hash * 31 + c.codePointAt(0)) >>> 0;
+            osc.type = 'sine'; osc.frequency.setValueAtTime(400 + hash % 550, now);
+            osc.frequency.exponentialRampToValueAtTime(250 + hash % 350, now + .08);
+            gain.gain.setValueAtTime(.0001, now); gain.gain.exponentialRampToValueAtTime(.025, now + .008); gain.gain.exponentialRampToValueAtTime(.0001, now + .11);
+            osc.connect(gain); gain.connect(context.destination); osc.start(now); osc.stop(now + .12);
+        } catch {}
+    });
+})();
+</script>
+
+</body>
+</html>
