@@ -1,0 +1,15 @@
+{
+  "name": "quiz-elektrownia-jadrowa",
+  "version": "1.0.0",
+  "description": "Quiz multiplayer w stylu Kahoot o elektrowni jądrowej",
+  "main": "server.cjs",
+  "scripts": { "start": "node server.cjs", "test": "node test/quiz.test.js" },
+  "engines": { "node": ">=20" },
+  "devDependencies": { "socket.io-client": "^4.8.1", "jsdom": "^26.1.0", "jsqr": "^1.4.0", "pngjs": "^7.0.0" },
+  "dependencies": {
+    "express": "^4.21.2",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.1"
+  }
+}
+

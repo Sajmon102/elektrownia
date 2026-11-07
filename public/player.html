@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dołącz do quizu</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101827;color:#f4f7fb;font:17px Arial}.wrap{max-width:620px;margin:30px auto;padding:18px}.card{background:#1d2a3d;border:1px solid #34445c;border-radius:18px;padding:22px;margin:12px 0}input{width:100%;padding:15px;border-radius:10px;border:0;margin:8px 0;font-size:18px}button{width:100%;padding:17px;border:0;border-radius:12px;margin:7px 0;font-size:18px;font-weight:bold;background:#34d399;color:#08251b}.answer{background:#334155;color:white;text-align:left}.answer:disabled{opacity:.5}.hidden{display:none}.big{font-size:38px;text-align:center;font-weight:bold}.muted{color:#b8c5d6}.reactions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.reactions button{font-size:26px;padding:12px}
+</style></head><body><main class="wrap"><h1>⚛️ Quiz – Elektrownia jądrowa</h1>
+<section id="join" class="card"><h2>Dołącz do gry</h2><input id="name" maxlength="18" placeholder="Twoje imię"><button id="joinBtn">Dołącz</button><p id="msg" class="muted"></p></section>
+<section id="wait" class="card hidden"><h2>Czekasz na prowadzącego…</h2><p>Jesteś w quizie. Gdy prowadzący rozpocznie, zobaczysz odliczanie.</p><div class="reactions"><button data-emoji="👏">👏</button><button data-emoji="😂">😂</button><button data-emoji="❤️">❤️</button><button data-emoji="😮">😮</button><button data-emoji="🔥">🔥</button><button data-emoji="🎉">🎉</button></div></section>
+<section id="game" class="card hidden"><p id="progress" class="muted"></p><div id="question" class="big"></div><div id="answers"></div><p id="status" class="muted"></p></section>
+<section id="end" class="card hidden"><h2>🏁 Quiz zakończony!</h2><p id="place"></p></section>
+</main><script src="/socket.io/socket.io.js"></script><script src="/common.js"></script><script src="/player.js"></script></body></html>
+
