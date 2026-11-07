@@ -1,5 +1,5 @@
 (() => {
-  const { $, socket, rpc, esc, format, read, save, notice } = Quiz;
+  const { $, socket, rpc, esc, format, read, save, notice, sound } = Quiz;
   const pathCode = location.pathname.match(/^\/play\/(\d{3}-?\d{3})\/?$/)?.[1]?.replace('-', '');
   let session = read('quiz-player'), current, clockOffset = 0, pending = false;
   if (pathCode && session?.code !== pathCode) session = null;
@@ -13,6 +13,7 @@
   $('joinBtn').before(actions); actions.append(hostButton, $('joinBtn')); $('joinBtn').style.flex = '1'; $('joinBtn').style.width = 'auto';
   $('join').querySelector('h2').textContent = 'Hostuj lub dołącz do gry';
   const timer = document.createElement('p'); timer.className = 'big'; $('game').append(timer);
+  const meter = document.createElement('div'); meter.className = 'game-progress'; meter.setAttribute('aria-hidden', 'true'); meter.innerHTML = '<span></span>'; $('game').prepend(meter);
   const retry = document.createElement('button'); retry.textContent = 'Dołącz do kolejnej gry'; $('end').append(retry);
   const show = id => ['join', 'wait', 'game', 'end'].forEach(x => $(x).classList.toggle('hidden', x !== id));
   function reset(message) { session = current = null; pending = false; save('quiz-player', null); show('join'); $('msg').textContent = message; $('joinBtn').disabled = !socket.connected; }
@@ -42,7 +43,11 @@
   function render(s) {
     if (!session || s.code !== session.code) return;
     if (current?.questionIndex !== s.questionIndex) pending = false;
+    if (current?.status !== s.status || current?.questionIndex !== s.questionIndex) {
+      if (['question', 'results', 'finished'].includes(s.status)) sound(s.status);
+    }
     current = s; clockOffset = s.serverNow - Date.now();
+    meter.firstElementChild.style.width = `${Math.max(0, Math.min(100, (s.questionIndex + 1) / s.total * 100))}%`;
     notice(!socket.connected ? 'Trwa ponowne łączenie…' : s.hostConnected ? `Quiz ${format(s.code)} • ${session.name}` : 'Prowadzący stracił połączenie. Czekamy na jego powrót…');
     if (s.status === 'lobby') show('wait');
     if (s.status === 'countdown') { show('game'); $('progress').textContent = 'Start za'; $('answers').innerHTML = ''; $('status').textContent = 'Przygotuj się!'; }

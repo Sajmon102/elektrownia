@@ -1,5 +1,5 @@
 (() => {
-  const { $, socket, rpc, esc, format, read, save, notice } = Quiz;
+  const { $, socket, rpc, esc, format, read, save, notice, sound } = Quiz;
   let session = read('quiz-host'), current, clockOffset = 0;
   const entry = document.createElement('p'); $('roomInfo').prepend(entry);
   const help = document.createElement('p');
@@ -7,6 +7,7 @@
   $('roomInfo').append(help);
   $('qr').alt = 'Zeskanuj, aby dołączyć do tego quizu';
   const timer = document.createElement('p'); timer.className = 'big'; $('game').append(timer);
+  const meter = document.createElement('div'); meter.className = 'game-progress'; meter.setAttribute('aria-hidden', 'true'); meter.innerHTML = '<span></span>'; $('game').prepend(meter);
   const end = document.createElement('button'); end.textContent = 'Zamknij quiz / nowa gra'; end.className = 'secondary'; end.hidden = true; document.querySelector('main').append(end);
   const show = id => ['lobby', 'game', 'results', 'finished'].forEach(x => $(x).classList.toggle('hidden', x !== id));
   function table(list) { return '<table><tr><th>Miejsce</th><th>Uczeń</th><th>Punkty</th></tr>' + list.map(p => `<tr><td>${p.place}</td><td>${esc(p.name)}</td><td>${p.score}</td></tr>`).join('') + '</table>'; }
@@ -45,7 +46,11 @@
   }
   function render(s) {
     if (!session || s.code !== session.code) return;
+    if (current?.status !== s.status || current?.questionIndex !== s.questionIndex) {
+      if (['question', 'results', 'finished'].includes(s.status)) sound(s.status);
+    }
     current = s; clockOffset = s.serverNow - Date.now(); controls();
+    meter.firstElementChild.style.width = `${Math.max(0, Math.min(100, (s.questionIndex + 1) / s.total * 100))}%`;
     $('count').textContent = s.players.filter(p => p.connected).length;
     $('players').innerHTML = s.players.map(p => `<span class="player">${esc(p.name)}${p.connected ? '' : ' (rozłączony)'} ${p.answered ? '✓' : ''}</span>`).join('');
     if (s.status === 'lobby') { show('lobby'); $('msg').textContent = 'Czekamy na uczniów…'; }
