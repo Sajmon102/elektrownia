@@ -147,7 +147,7 @@ function createQuizServer(options = {}) {
       if (!Number.isInteger(data.answer) || data.answer < 0 || data.answer >= r.questions[r.questionIndex].a.length) throw new Error('Nieprawidłowa odpowiedź.');
       if (data.questionIndex !== r.questionIndex) throw new Error('To odpowiedź do poprzedniego pytania.');
       r.answers.set(p.id, data.answer);
-      if (data.answer === r.questions[r.questionIndex].correct) p.score += Math.max(0, Math.ceil(1000 * (r.deadline - Date.now()) / questionMs));
+      if (data.answer === r.questions[r.questionIndex].correct) p.score += Math.max(0, Math.ceil(1000 * (r.deadline - Date.now()) / questionMs)) * (r.questionIndex === questions.length - 1 ? 2 : 1);
       if (r.answers.size === r.players.size) closeQuestion(r); else sendState(r);
     });
     on('host:close-question', data => {
