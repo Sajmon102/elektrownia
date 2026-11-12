@@ -13,5 +13,5 @@ module.exports = [
   { q: "Co napędza turbinę w typowej elektrowni jądrowej?", a: ["Promieniowanie słoneczne", "Para wodna", "Uran w stanie gazowym", "Pole magnetyczne Ziemi"], correct: 1 },
   { q: "Jaką funkcję pełni gruba obudowa bezpieczeństwa reaktora?", a: ["Zwiększa prędkość wiatru", "Pomaga ograniczyć wydostawanie się substancji promieniotwórczych", "Wytwarza paliwo", "Przesyła prąd do domów"], correct: 1 },
   { q: "Co zwykle widać nad chłodnią kominową?", a: ["Dym ze spalania węgla", "Kropelki wody tworzące widoczny obłok", "Pył uranowy", "Czysty dwutlenek węgla"], correct: 1 },
-  { q: "Co mierzy się w jednostkach zwanych bekerelami (Bq)?", a: ["Moc żarówki", "Aktywność promieniotwórczą", "Temperaturę wody", "Napięcie sieci"], correct: 1 }
+  { q: "Jaki element zamienia ruch turbiny na energię elektryczną?", a: ["Chłodnia", "Generator", "Reaktor", "Transformator"], correct: 1 }
 ];
