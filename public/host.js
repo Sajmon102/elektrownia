@@ -56,7 +56,7 @@
     if (s.status === 'lobby') { show('lobby'); $('msg').textContent = 'Czekamy na uczniów…'; }
     if (s.status === 'countdown') { show('game'); $('question').textContent = 'Przygotuj się…'; $('progress').textContent = 'Start za'; $('answerProgress').textContent = ''; }
     if (s.status === 'question') {
-      show('game'); $('progress').textContent = `Pytanie ${s.questionIndex + 1} z ${s.total}${s.questionIndex === s.total - 1 ? ' — TRUDNE · 2× PUNKTÓW' : ''}`; $('question').textContent = s.question.q;
+      show('game'); $('progress').textContent = `Pytanie ${s.questionIndex + 1} z ${s.total}`; $('question').textContent = s.question.q;
       $('choices').innerHTML = s.question.a.map((a, i) => `<div class="choice">${'ABCD'[i]}. ${esc(a)}</div>`).join('');
       $('answerProgress').textContent = `Odpowiedziało: ${s.players.filter(p => p.answered).length} / ${s.players.length}`;
     }
