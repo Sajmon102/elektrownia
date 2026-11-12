@@ -14,7 +14,7 @@ const lanAddresses = () => Object.entries(os.networkInterfaces())
 function createQuizServer(options = {}) {
   const app = express(), server = http.createServer(app);
   const io = new Server(server, { maxHttpBufferSize: 16384 }), rooms = new Map();
-  const countdownMs = options.countdownMs ?? 5000, questionMs = options.questionMs ?? 15000;
+  const countdownMs = options.countdownMs ?? 5000, questionMs = options.questionMs ?? 20000;
   const disconnectMs = options.disconnectMs ?? 120000;
   const publicUrl = options.publicUrl ?? process.env.PUBLIC_URL ?? '';
   if (publicUrl) {
