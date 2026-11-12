@@ -752,12 +752,12 @@ function resetQuiz() {
     document.head.appendChild(style);
     const actions = document.createElement('div'); actions.className = 'quiz-online-actions';
     const link = document.createElement('a'); link.href = '/quiz'; link.textContent = '🎮 Quiz online';
-    const toggle = document.createElement('button'); toggle.type = 'button';
+    const bqLink = document.createElement('a'); bqLink.href = '/bq.html'; bqLink.textContent = '📊 Jednostka Bq · pytanie 15'; const toggle = document.createElement('button'); toggle.type = 'button';
     let muted = false, context;
     try { muted = localStorage.getItem('elektrownia-muted') === '1'; } catch {}
     function label() { toggle.textContent = muted ? '🔇 Dźwięki wyłączone' : '🔊 Dźwięki włączone'; toggle.setAttribute('aria-pressed', String(!muted)); }
     toggle.onclick = () => { muted = !muted; try { localStorage.setItem('elektrownia-muted', muted ? '1' : '0'); } catch {} label(); };
-    label(); actions.append(link, toggle); document.body.prepend(actions);
+    label(); actions.append(link, bqLink, toggle); document.body.prepend(actions);
     document.addEventListener('click', event => {
         const target = event.target.closest('button, a, input[type=radio]');
         if (!target || target === toggle || muted) return;
