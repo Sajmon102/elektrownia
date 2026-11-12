@@ -41,7 +41,7 @@
     document.querySelectorAll('[data-answer]').forEach(b => { b.disabled = !socket.connected || pending || answered || left <= 0 || current?.status !== 'question'; });
   }
   function render(s) {
-    if (!session || s.code !== session.code) return; bqLink.hidden = !(s.questionIndex === 14 && ['question', 'results'].includes(s.status));
+    if (!session || s.code !== session.code) return; bqLink.hidden = true;
     if (current?.questionIndex !== s.questionIndex) pending = false;
     if (current?.status !== s.status || current?.questionIndex !== s.questionIndex) {
       if (['question', 'results', 'finished'].includes(s.status)) sound(s.status);
@@ -52,7 +52,7 @@
     if (s.status === 'lobby') show('wait');
     if (s.status === 'countdown') { show('game'); $('progress').textContent = 'Start za'; $('answers').innerHTML = ''; $('status').textContent = 'Przygotuj się!'; }
     if (s.status === 'question') {
-      show('game'); $('progress').textContent = `Pytanie ${s.questionIndex + 1} z ${s.total}${s.questionIndex === s.total - 1 ? ' — TRUDNE · 2× PUNKTÓW' : ''}`; $('question').textContent = s.question.q;
+      show('game'); $('progress').textContent = `Pytanie ${s.questionIndex + 1} z ${s.total}`; $('question').textContent = s.question.q;
       $('answers').innerHTML = s.question.a.map((a, i) => `<button class="answer" data-answer="${i}">${'ABCD'[i]}. ${esc(a)}</button>`).join('');
       $('status').textContent = s.players.find(p => p.id === session.id)?.answered ? 'Odpowiedź zapisana! Czekaj na wyniki.' : 'Wybierz jedną odpowiedź';
       document.querySelectorAll('[data-answer]').forEach(b => { b.onclick = async () => {
