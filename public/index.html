@@ -48,7 +48,7 @@ header {
 
 .progress {
     height: 5px;
-    width: 6.25%;
+    width: 7.6923%;
     background: #35d6a0;
     transition: 0.3s;
 }
@@ -258,6 +258,14 @@ footer {
         justify-content: center;
     }
 }
+
+.diagram { margin: 24px 0; padding: 20px; background: #122431; border: 1px solid #304451; border-radius: 14px; }
+.diagram-scroll { overflow-x: auto; }
+.diagram svg { display: block; width: 100%; height: auto; min-width: 620px; }
+.diagram text { font-family: Arial, sans-serif; fill: #e2edf3; font-size: 17px; }
+.diagram figcaption { color: #b8c9d5; line-height: 1.6; font-size: 14px; margin-top: 14px; }
+.diagram-scroll:focus-visible { outline: 2px solid #35d6a0; outline-offset: 4px; }
+@media(max-width:650px) { .diagram { padding: 12px; } }
 </style>
 </head>
 
@@ -274,17 +282,17 @@ footer {
 
 <main>
 
-<!-- STRONA 1 -->
+<!-- ROZDZIAŁ -->
 <div class="page active">
-<div class="page-number">STRONA 01 / 16</div>
+<div class="page-number">STRONA 01 / 13</div>
 <h1>Elektrownie jądrowe</h1>
-<p>Budowa i działanie elektrowni, bezpieczeństwo oraz zalety i zagrożenia energetyki jądrowej.</p>
+<p>Budowa i działanie elektrowni oraz zalety i zagrożenia energetyki jądrowej.</p>
 <p>Na końcu materiału: quiz z 10 pytaniami.</p>
 </div>
 
-<!-- STRONA 2 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 02 / 16</div>
+<div class="page-number">STRONA 02 / 13</div>
 <h1>Czym jest elektrownia jądrowa?</h1>
 <p>Elektrownia jądrowa to zakład przemysłowy, który produkuje energię elektryczną, wykorzystując energię uwalnianą podczas reakcji jądrowych.</p>
 <p>Najczęściej paliwem jest uran. W specjalnym urządzeniu nazywanym reaktorem zachodzi kontrolowane rozszczepienie jąder atomowych.</p>
@@ -300,9 +308,9 @@ Elektrownia jądrowa nie spala węgla ani gazu w celu produkcji ciepła. Wykorzy
 </div>
 </div>
 
-<!-- STRONA 3 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 03 / 16</div>
+<div class="page-number">STRONA 03 / 13</div>
 <h1>Historia energii jądrowej</h1>
 <p>Historia energetyki jądrowej rozpoczęła się dzięki odkryciom naukowców badających budowę atomu.</p>
 <h2>Najważniejsze wydarzenia</h2>
@@ -316,27 +324,9 @@ Elektrownia jądrowa nie spala węgla ani gazu w celu produkcji ciepła. Wykorzy
 <p>Od tamtej pory technologia reaktorów rozwijała się, a energetyka jądrowa stała się ważną częścią systemów energetycznych wielu państw.</p>
 </div>
 
-<!-- STRONA 4 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 04 / 16</div>
-<h1>Jak działa atom?</h1>
-<p>Atom to podstawowa jednostka budująca materię. Składa się z jądra atomowego oraz elektronów znajdujących się wokół niego.</p>
-<div class="cards">
-<div class="card"><h3>Protony</h3><p>Cząstki o dodatnim ładunku elektrycznym znajdujące się w jądrze.</p></div>
-<div class="card"><h3>Neutrony</h3><p>Cząstki bez ładunku elektrycznego znajdujące się w jądrze.</p></div>
-<div class="card"><h3>Elektrony</h3><p>Cząstki o ujemnym ładunku elektrycznym.</p></div>
-</div>
-<h2>Skąd bierze się energia?</h2>
-<p>W niektórych reakcjach jądrowych niewielka część masy układu zamienia się w energię. Opisuje to słynny wzór Alberta Einsteina:</p>
-<div class="info-box" style="text-align:center;font-size:28px;color:#35d6a0;">
-E = mc²
-</div>
-<p>Oznacza to, że masa i energia są ze sobą powiązane.</p>
-</div>
-
-<!-- STRONA 5 -->
-<div class="page">
-<div class="page-number">STRONA 05 / 16</div>
+<div class="page-number">STRONA 04 / 13</div>
 <h1>Rozszczepienie jądra atomowego</h1>
 <p>Rozszczepienie jądra atomowego polega na podziale ciężkiego jądra na dwa lub więcej mniejszych jąder. Podczas tego procesu uwalnia się energia oraz neutrony.</p>
 <h2>Jak przebiega reakcja?</h2>
@@ -353,9 +343,9 @@ Podczas rozszczepienia jednego jądra atomowego uwalnia się bardzo dużo energi
 </div>
 </div>
 
-<!-- STRONA 6 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 06 / 16</div>
+<div class="page-number">STRONA 05 / 13</div>
 <h1>Reaktor jądrowy</h1>
 <p>Reaktor jest najważniejszym elementem elektrowni jądrowej. To właśnie w nim zachodzi kontrolowana reakcja łańcuchowa.</p>
 <h2>Główne elementy reaktora</h2>
@@ -370,12 +360,22 @@ Reaktor pracuje w kontrolowanych warunkach. Systemy bezpieczeństwa mają utrzym
 </div>
 </div>
 
-<!-- STRONA 7 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 07 / 16</div>
+<div class="page-number">STRONA 06 / 13</div>
 <h1>Paliwo jądrowe</h1>
 <p>Najczęściej wykorzystywanym paliwem w elektrowniach jądrowych jest uran. Jest to pierwiastek chemiczny występujący naturalnie w skorupie ziemskiej.</p>
-<h2>Jak wygląda paliwo?</h2>
+<h2>Jak wygląda paliwo?</h2><figure class="diagram"><div class="diagram-scroll" tabindex="0" role="region" aria-label="Budowa paliwa; przewiń w bok na małym ekranie">
+<svg viewBox="0 0 800 220" role="img" aria-labelledby="fuel-title"><title id="fuel-title">Pastylki paliwowe umieszcza się w prętach, a pręty łączy w zestawy paliwowe</title>
+<g fill="#79939f" stroke="#c0d1d9" stroke-width="2"><path d="M70 80V135C70 155 140 155 140 135V80Z"/><ellipse cx="105" cy="80" rx="35" ry="12"/></g>
+<path d="M185 110H255M242 98L255 110L242 122" fill="none" stroke="#35d6a0" stroke-width="4"/>
+<rect x="285" y="90" width="195" height="35" rx="16" fill="#79939f" stroke="#c0d1d9" stroke-width="2"/>
+<path d="M305 92V123M330 92V123M355 92V123M380 92V123M405 92V123M430 92V123M455 92V123" stroke="#263746" stroke-width="2"/>
+<path d="M510 110H570M557 98L570 110L557 122" fill="none" stroke="#35d6a0" stroke-width="4"/>
+<g stroke="#a6c1cf" stroke-width="10"><path d="M610 55V150M628 55V150M646 55V150M664 55V150M682 55V150M700 55V150"/></g>
+<path d="M600 72H710M600 130H710" stroke="#35d6a0" stroke-width="8"/>
+<g text-anchor="middle"><text x="105" y="192">Pastylka paliwowa</text><text x="380" y="192">Pręt paliwowy</text><text x="655" y="192">Zestaw paliwowy</text></g>
+</svg></div><figcaption>Od pojedynczej pastylki do zestawu umieszczanego w rdzeniu reaktora. Rysunek nie zachowuje skali.</figcaption></figure>
 <p>Uran jest przetwarzany i wykorzystywany w postaci specjalnych ceramicznych pastylek paliwowych. Pastylki umieszcza się w metalowych rurkach, które tworzą pręty paliwowe.</p>
 <div class="info-box">
 <strong>Ważne informacje:</strong><br>
@@ -388,10 +388,15 @@ Reaktor pracuje w kontrolowanych warunkach. Systemy bezpieczeństwa mają utrzym
 <p>W niektórych typach reaktorów można wykorzystywać również pluton lub tor w odpowiednich cyklach paliwowych.</p>
 </div>
 
-<!-- STRONA 8 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 08 / 16</div>
-<h1>Jak powstaje prąd?</h1>
+<div class="page-number">STRONA 07 / 13</div>
+<h1>Jak powstaje prąd?</h1><figure class="diagram"><div class="diagram-scroll" tabindex="0" role="region" aria-label="Przemiany energii; przewiń w bok na małym ekranie">
+<svg viewBox="0 0 800 170" role="img" aria-labelledby="energy-title"><title id="energy-title">Energia jądrowa zmienia się w ciepło, ruch turbiny i energię elektryczną</title>
+<g fill="#203a4a" stroke="#35d6a0" stroke-width="2"><rect x="10" y="25" width="160" height="115" rx="16"/><rect x="215" y="25" width="160" height="115" rx="16"/><rect x="420" y="25" width="160" height="115" rx="16"/><rect x="625" y="25" width="165" height="115" rx="16"/></g>
+<g text-anchor="middle"><text x="90" y="75">Rozszczepienie</text><text x="90" y="108">jąder</text><text x="295" y="75">Ciepło</text><text x="295" y="108">i para</text><text x="500" y="75">Ruch</text><text x="500" y="108">turbiny</text><text x="707" y="75">Energia</text><text x="707" y="108">elektryczna</text></g>
+<path d="M180 82H203L194 73M203 82L194 91M385 82H408L399 73M408 82L399 91M590 82H613L604 73M613 82L604 91" fill="none" stroke="#ffc857" stroke-width="3"/>
+</svg></div><figcaption>Kolejne przemiany energii w elektrowni jądrowej.</figcaption></figure>
 <p>Elektrownia jądrowa zamienia energię jądrową w energię cieplną, mechaniczną, a następnie elektryczną.</p>
 <div class="cards">
 <div class="card"><h3>01. Reaktor</h3><p>Wytwarza ciepło dzięki rozszczepieniu jąder atomowych.</p></div>
@@ -406,25 +411,68 @@ Reaktor nie produkuje bezpośrednio prądu. Dostarcza ciepło, które napędza c
 </div>
 </div>
 
-<!-- STRONA 9 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 09 / 16</div>
-<h1>Chłodzenie elektrowni</h1>
-<p>Podczas pracy elektrowni powstaje dużo ciepła. Dlatego niezbędne są systemy chłodzenia, które odprowadzają nadmiar energii cieplnej.</p>
-<h2>Wieże chłodnicze</h2>
-<p>Charakterystyczne wysokie konstrukcje, które można zobaczyć przy wielu elektrowniach, to chłodnie kominowe.</p>
-<p>W wielu chłodniach ciepło jest odprowadzane przez kontakt wody z powietrzem. Widoczna biała chmura to przede wszystkim skroplona para wodna, a nie dym z palenia paliwa.</p>
-<div class="info-box">
-<strong>Ciekawostka:</strong><br>
-Nie każda elektrownia jądrowa posiada ogromne chłodnie kominowe. Niektóre korzystają z innych systemów chłodzenia.
+<div class="page-number">STRONA 08 / 13</div>
+<h1>Jak wygląda elektrownia jądrowa?</h1>
+<p>Uproszczony przekrój elektrowni z reaktorem PWR. Podpisy pokazują najważniejsze urządzenia i ich położenie.</p>
+<figure class="diagram">
+<div class="diagram-scroll" tabindex="0" role="region" aria-label="Schemat elektrowni; na małym ekranie przewiń w bok">
+<svg viewBox="0 0 960 540" role="img" aria-labelledby="plant-title plant-desc">
+<title id="plant-title">Elektrownia jądrowa z podpisanymi częściami</title>
+<desc id="plant-desc">W budynku reaktora znajdują się reaktor i wytwornica pary. Para trafia do turbiny połączonej wałem z generatorem. Transformator przekazuje energię do sieci. Pod turbiną jest skraplacz, a osobny obieg chłodzenia łączy go z chłodnią kominową.</desc>
+<defs><marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#ffc857"/></marker></defs>
+<path d="M30 400V180C30 20 330 20 330 180V400Z" fill="#203a4a" stroke="#7395a8" stroke-width="3"/>
+<text x="180" y="48" text-anchor="middle">Budynek reaktora</text>
+<path d="M360 400V160H720V400Z" fill="#1a3341" stroke="#7395a8" stroke-width="3"/>
+<text x="540" y="142" text-anchor="middle">Hala turbin i generatora</text>
+<rect x="65" y="220" width="90" height="130" rx="30" fill="#345565" stroke="#ff9966" stroke-width="3"/>
+<path d="M87 260V320M108 260V320M129 260V320" stroke="#ff9966" stroke-width="9"/>
+<text x="110" y="205" text-anchor="middle">Reaktor</text>
+<rect x="228" y="155" width="65" height="190" rx="30" fill="#315565" stroke="#ffc857" stroke-width="3"/>
+<path d="M155 255H250V310H155" fill="none" stroke="#ff9966" stroke-width="6"/>
+<text x="170" y="130" text-anchor="middle">Wytwornica</text><text x="170" y="152" text-anchor="middle">pary</text><path d="M215 145L242 160" stroke="#b8c9d5" fill="none"/>
+<path d="M260 155V85H420V230" fill="none" stroke="#ffc857" stroke-width="5" marker-end="url(#flow-arrow)"/>
+<text x="380" y="72">Para</text>
+<path d="M400 235L485 210V295L400 270Z" fill="#82662f" stroke="#ffc857" stroke-width="3"/>
+<path d="M420 232V276M440 225V283M460 220V289" stroke="#ffc857" stroke-width="3"/>
+<text x="485" y="195" text-anchor="middle">Turbina</text>
+<path d="M485 253H550" stroke="#d8e5ed" stroke-width="8"/>
+<rect x="550" y="222" width="120" height="65" rx="20" fill="#205b4b" stroke="#35d6a0" stroke-width="3"/>
+<text x="610" y="205" text-anchor="middle">Generator</text><text x="610" y="261" text-anchor="middle">G</text>
+<path d="M670 253H750V325H790" fill="none" stroke="#35d6a0" stroke-width="5"/>
+<rect x="775" y="310" width="75" height="80" rx="5" fill="#205b4b" stroke="#35d6a0" stroke-width="3"/>
+<path d="M790 305V290M812 305V290M834 305V290" stroke="#35d6a0" stroke-width="5"/>
+<text x="815" y="425" text-anchor="middle">Transformator</text>
+<path d="M850 350H920V280M900 280L920 220L940 280M895 245H945" fill="none" stroke="#35d6a0" stroke-width="3"/>
+<text x="920" y="205" text-anchor="middle">Sieć</text>
+<rect x="395" y="335" width="140" height="50" rx="12" fill="#234f6c" stroke="#69c5ff" stroke-width="3"/>
+<text x="465" y="365" text-anchor="middle">Skraplacz</text>
+<path d="M465 295V335" stroke="#ffc857" stroke-width="5"/>
+<path d="M395 360H350V380H260V345" fill="none" stroke="#69c5ff" stroke-width="5"/>
+<text x="310" y="421" text-anchor="middle">Powrót wody do wytwornicy</text>
+<path d="M795 95Q820 155 775 250H875Q830 155 855 95Z" fill="#3a5666" stroke="#91adbd" stroke-width="3"/>
+<ellipse cx="825" cy="95" rx="30" ry="8" fill="#122431" stroke="#91adbd" stroke-width="2"/>
+<text x="825" y="45" text-anchor="middle">Chłodnia</text><text x="825" y="67" text-anchor="middle">kominowa</text>
+<path d="M535 350H740V235H790M860 235H885V455H465V385" fill="none" stroke="#69c5ff" stroke-width="4" stroke-dasharray="8 5"/>
+<text x="700" y="482" text-anchor="middle">Osobny obieg wody chłodzącej</text>
+<path d="M40 515H75" stroke="#ff9966" stroke-width="5"/><text x="85" y="521">Obieg pierwotny</text>
+<path d="M285 515H320" stroke="#ffc857" stroke-width="5"/><text x="330" y="521">Para</text>
+<path d="M425 515H460" stroke="#69c5ff" stroke-width="5"/><text x="470" y="521">Woda</text>
+<path d="M575 515H610" stroke="#35d6a0" stroke-width="5"/><text x="620" y="521">Energia elektryczna</text>
+</svg></div>
+<figcaption>Schemat poglądowy, bez zachowania skali. W PWR woda obiegu pierwotnego przekazuje ciepło w wytwornicy, ale nie miesza się z wodą obiegu parowego. Nie każda elektrownia ma chłodnie kominowe.</figcaption>
+</figure>
+<div class="cards">
+<div class="card"><h3>Reaktor → wytwornica</h3><p>Reaktor wytwarza ciepło, a wytwornica pary przekazuje je drugiemu obiegowi.</p></div>
+<div class="card"><h3>Turbina → generator</h3><p>Para obraca turbinę. Wspólny wał napędza generator produkujący prąd.</p></div>
+<div class="card"><h3>Skraplacz → chłodzenie</h3><p>Para zamienia się z powrotem w wodę. Osobny obieg odbiera z niej ciepło.</p></div>
 </div>
-<h2>Dlaczego chłodzenie jest ważne?</h2>
-<p>Utrzymuje odpowiednią temperaturę urządzeń i umożliwia bezpieczną pracę elektrowni.</p>
 </div>
 
-<!-- STRONA 10 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 10 / 16</div>
+<div class="page-number">STRONA 09 / 13</div>
 <h1>Rodzaje reaktorów</h1>
 <p>Na świecie istnieje wiele rodzajów reaktorów jądrowych. Różnią się konstrukcją, chłodziwem oraz sposobem przekazywania ciepła.</p>
 <div class="cards">
@@ -438,42 +486,9 @@ Nie wszystkie nowe projekty reaktorów są już komercyjnie wykorzystywane. Czę
 </div>
 </div>
 
-<!-- STRONA 11 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 11 / 16</div>
-<h1>Bezpieczeństwo elektrowni</h1>
-<p>Bezpieczeństwo jest jednym z najważniejszych elementów projektowania i eksploatacji elektrowni jądrowych.</p>
-<h2>Jak chroni się elektrownię?</h2>
-<div class="cards">
-<div class="card"><h3>🛡 Obudowa bezpieczeństwa</h3><p>Chroni reaktor i pomaga ograniczyć uwolnienie substancji promieniotwórczych.</p></div>
-<div class="card"><h3>🌡 Chłodzenie awaryjne</h3><p>Pomaga odprowadzać ciepło w sytuacjach awaryjnych.</p></div>
-<div class="card"><h3>⚙ Automatyka</h3><p>Monitoruje parametry i może automatycznie wyłączyć reaktor.</p></div>
-<div class="card"><h3>👨‍🔬 Personel</h3><p>Pracownicy przechodzą specjalistyczne szkolenia.</p></div>
-</div>
-<p>Nowoczesne elektrownie wykorzystują wiele niezależnych zabezpieczeń. Mimo to ryzyko awarii nigdy nie jest całkowicie zerowe.</p>
-</div>
-
-<!-- STRONA 12 -->
-<div class="page">
-<div class="page-number">STRONA 12 / 16</div>
-<h1>Odpady promieniotwórcze</h1>
-<p>Podczas pracy elektrowni powstają odpady promieniotwórcze. Muszą być odpowiednio segregowane, zabezpieczane i przechowywane.</p>
-<h2>Rodzaje odpadów</h2>
-<div class="cards">
-<div class="card"><h3>Niskoaktywne</h3><p>Na przykład niektóre zużyte materiały ochronne i narzędzia.</p></div>
-<div class="card"><h3>Średnioaktywne</h3><p>Materiały wymagające bardziej zaawansowanych metod izolacji.</p></div>
-<div class="card"><h3>Wysokoaktywne</h3><p>Między innymi zużyte paliwo jądrowe, jeśli jest przeznaczone do składowania.</p></div>
-</div>
-<div class="info-box">
-<strong>Czy odpady są niebezpieczne?</strong><br>
-Mogą stanowić zagrożenie, dlatego wymagają specjalnych pojemników, kontroli i odpowiednio zaprojektowanych miejsc przechowywania.
-</div>
-<p>Niektóre materiały promieniotwórcze pozostają niebezpieczne przez bardzo długi czas.</p>
-</div>
-
-<!-- STRONA 13 -->
-<div class="page">
-<div class="page-number">STRONA 13 / 16</div>
+<div class="page-number">STRONA 10 / 13</div>
 <h1>Zalety energii jądrowej</h1>
 <p>Energetyka jądrowa ma wiele zalet, dzięki którym jest wykorzystywana w licznych państwach.</p>
 <div class="cards">
@@ -487,9 +502,9 @@ Energetyka jądrowa może pomagać w ograniczaniu emisji CO₂ i zapewnianiu sta
 </div>
 </div>
 
-<!-- STRONA 14 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 14 / 16</div>
+<div class="page-number">STRONA 11 / 13</div>
 <h1>Wady i zagrożenia</h1>
 <p>Energia jądrowa nie jest pozbawiona wad. Jej wykorzystanie wiąże się z wyzwaniami technologicznymi, finansowymi i środowiskowymi.</p>
 <div class="cards">
@@ -503,9 +518,9 @@ Energetyka jądrowa wymaga odpowiedniego nadzoru, dobrego planowania oraz wysoki
 </div>
 </div>
 
-<!-- STRONA 15 -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 15 / 16</div>
+<div class="page-number">STRONA 12 / 13</div>
 <h1>Energetyka jądrowa w Polsce</h1>
 <p>Polska planuje rozwój energetyki jądrowej, aby zwiększyć bezpieczeństwo energetyczne oraz ograniczyć emisję gazów cieplarnianych.</p>
 <h2>Pierwsza elektrownia jądrowa</h2>
@@ -524,9 +539,9 @@ Pierwsza polska elektrownia jądrowa jest projektem w przygotowaniu i budowie. P
 <p>Rozwój projektu będzie wymagał wielu lat pracy, testów, uzyskiwania zezwoleń oraz przygotowania wykwalifikowanej kadry.</p>
 </div>
 
-<!-- STRONA 16 - QUIZ -->
+<!-- ROZDZIAŁ -->
 <div class="page">
-<div class="page-number">STRONA 16 / 16</div>
+<div class="page-number">STRONA 13 / 13</div>
 <h1>⚛ Quiz – sprawdź swoją wiedzę!</h1>
 <p>Gratulacje! Dotarłeś do końca materiału. Teraz sprawdź, ile zapamiętałeś. Odpowiedz na 10 pytań i zobacz swój wynik.</p>
 
@@ -596,10 +611,10 @@ Pierwsza polska elektrownia jądrowa jest projektem w przygotowaniu i budowie. P
 </div>
 
 <div class="question">
-<h3>10. Co oznacza wzór E = mc²?</h3>
-<label class="answer"><input type="radio" name="q10" value="a"> Zależność prędkości od czasu</label>
-<label class="answer"><input type="radio" name="q10" value="b"> Związek masy i energii</label>
-<label class="answer"><input type="radio" name="q10" value="c"> Wzór na pole koła</label>
+<h3>10. Jaką funkcję pełni wytwornica pary?</h3>
+<label class="answer"><input type="radio" name="q10" value="a"> Przechowuje zużyte paliwo</label>
+<label class="answer"><input type="radio" name="q10" value="b"> Przekazuje ciepło do obiegu parowego</label>
+<label class="answer"><input type="radio" name="q10" value="c"> Przesyła prąd do sieci</label>
 </div>
 
 <button type="button" onclick="checkQuiz()">SPRAWDŹ WYNIK</button>
@@ -618,7 +633,7 @@ Pierwsza polska elektrownia jądrowa jest projektem w przygotowaniu i budowie. P
 <!-- NAWIGACJA -->
 <div class="navigation">
 <button id="prev" onclick="changePage(-1)" disabled>← Wstecz</button>
-<div class="page-counter" id="counter">Strona 1 z 16</div>
+<div class="page-counter" id="counter">Strona 1 z 13</div>
 <button id="next" onclick="changePage(1)">Dalej →</button>
 </div>
 
