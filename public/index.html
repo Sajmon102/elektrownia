@@ -757,7 +757,7 @@ function resetQuiz() {
     try { muted = localStorage.getItem('elektrownia-muted') === '1'; } catch {}
     function label() { toggle.textContent = muted ? '🔇 Dźwięki wyłączone' : '🔊 Dźwięki włączone'; toggle.setAttribute('aria-pressed', String(!muted)); }
     toggle.onclick = () => { muted = !muted; try { localStorage.setItem('elektrownia-muted', muted ? '1' : '0'); } catch {} label(); };
-    label(); actions.append(link, bqLink, toggle); document.body.prepend(actions);
+    label(); actions.append(link, toggle); document.body.prepend(actions);
     document.addEventListener('click', event => {
         const target = event.target.closest('button, a, input[type=radio]');
         if (!target || target === toggle || muted) return;
