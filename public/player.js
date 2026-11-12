@@ -13,7 +13,7 @@
   $('joinBtn').before(actions); actions.append(hostButton, $('joinBtn')); $('joinBtn').style.flex = '1'; $('joinBtn').style.width = 'auto';
   $('join').querySelector('h2').textContent = 'Hostuj lub dołącz do gry';
   const timer = document.createElement('p'); timer.className = 'big'; $('game').append(timer);
-  const meter = document.createElement('div'); meter.className = 'game-progress'; meter.setAttribute('aria-hidden', 'true'); meter.innerHTML = '<span></span>'; $('game').prepend(meter);
+  const meter = document.createElement('div'); meter.className = 'game-progress'; meter.setAttribute('aria-hidden', 'true'); meter.innerHTML = '<span></span>'; $('game').prepend(meter); const bqLink = document.createElement('a'); bqLink.href = '/bq.html'; bqLink.textContent = 'Materiał pomocniczy: co oznacza Bq?'; bqLink.target = '_blank'; bqLink.rel = 'noopener'; bqLink.hidden = true; bqLink.style.cssText = 'margin:12px 0;color:#35d6a0;font-weight:bold'; $('progress').after(bqLink);
   const retry = document.createElement('button'); retry.textContent = 'Dołącz do kolejnej gry'; $('end').append(retry);
   const show = id => ['join', 'wait', 'game', 'end'].forEach(x => $(x).classList.toggle('hidden', x !== id));
   function reset(message) { session = current = null; pending = false; save('quiz-player', null); show('join'); $('msg').textContent = message; $('joinBtn').disabled = !socket.connected; }
@@ -41,7 +41,7 @@
     document.querySelectorAll('[data-answer]').forEach(b => { b.disabled = !socket.connected || pending || answered || left <= 0 || current?.status !== 'question'; });
   }
   function render(s) {
-    if (!session || s.code !== session.code) return;
+    if (!session || s.code !== session.code) return; bqLink.hidden = !(s.questionIndex === 14 && ['question', 'results'].includes(s.status));
     if (current?.questionIndex !== s.questionIndex) pending = false;
     if (current?.status !== s.status || current?.questionIndex !== s.questionIndex) {
       if (['question', 'results', 'finished'].includes(s.status)) sound(s.status);
