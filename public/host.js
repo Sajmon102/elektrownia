@@ -62,7 +62,7 @@
     }
     if (s.status === 'results') {
       show('results'); const r = s.results; $('correct').textContent = 'Poprawna odpowiedź: ' + r.correctText; answerReview.innerHTML = r.answers.map((a,i) => '<div class="choice" style="background:' + (i === r.correct ? '#14532d' : '#7f1d1d') + ' !important;color:#fff !important">' + 'ABCD'[i] + '. ' + esc(a) + '</div>').join('');
-      $('bars').innerHTML = r.counts.map((n, i) => `<div class="barrow"><b>${'ABCD'[i]}</b><div class="bar"><div class="fill" style="width:${n / Math.max(1, ...r.counts) * 100}%"></div></div><b>${n}</b></div>`).join('');
+      $('bars').innerHTML = r.counts.map((n, i) => `<div class="barrow"><b>${'ABCD'[i]}</b><div class="bar" style="background:${i === r.correct ? '#14532d' : '#7f1d1d'} !important"><div class="fill" style="width:${n / Math.max(1, ...r.counts) * 100}%;background:${i === r.correct ? '#22c55e' : '#ef4444'} !important"></div></div><b>${n}</b></div>`).join('');
       $('topTable').innerHTML = table(r.leaderboard.slice(0, 5)); $('restTable').innerHTML = r.leaderboard.length > 5 ? table(r.leaderboard.slice(5)) : '';
       $('next').textContent = s.questionIndex === s.total - 1 ? 'Pokaż końcowe wyniki 🏆' : 'Następne pytanie';
     }
