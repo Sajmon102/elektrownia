@@ -14,7 +14,7 @@ const lanAddresses = () => Object.entries(os.networkInterfaces())
 function createQuizServer(options = {}) {
   const app = express(), server = http.createServer(app);
   const io = new Server(server, { maxHttpBufferSize: 16384 }), rooms = new Map();
-  const countdownMs = options.countdownMs ?? 5000, questionMs = options.questionMs ?? 30000;
+  const countdownMs = options.countdownMs ?? 5000, questionMs = options.questionMs ?? 15000;
   const disconnectMs = options.disconnectMs ?? 120000;
   const publicUrl = options.publicUrl ?? process.env.PUBLIC_URL ?? '';
   if (publicUrl) {
@@ -54,7 +54,7 @@ function createQuizServer(options = {}) {
     clearTimeout(r.timer); r.status = 'results'; r.deadline = null;
     const q = questions[r.questionIndex], counts = Array(q.a.length).fill(0);
     for (const answer of r.answers.values()) counts[answer]++;
-    r.results = { counts, correct: q.correct, correctText: q.a[q.correct], leaderboard: board(r), questionText: q.q }; sendState(r);
+    r.results = { counts, correct: q.correct, correctText: q.a[q.correct], answers: q.a, leaderboard: board(r), questionText: q.q }; sendState(r);
   }
   function startQuestion(r) {
     r.status = 'question'; r.answers.clear();
