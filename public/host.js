@@ -9,7 +9,7 @@
   const timer = document.createElement('p'); timer.className = 'big'; $('game').append(timer);
   const meter = document.createElement('div'); meter.className = 'game-progress'; meter.setAttribute('aria-hidden', 'true'); meter.innerHTML = '<span></span>'; $('game').prepend(meter);
   const end = document.createElement('button'); end.textContent = 'Zamknij quiz / nowa gra'; end.className = 'secondary'; end.hidden = true; document.querySelector('main').append(end);
-  const show = id => ['lobby', 'game', 'results', 'finished'].forEach(x => $(x).classList.toggle('hidden', x !== id));
+  const show = id => ['lobby', 'game', 'results', 'finished'].forEach(x => $(x).classList.toggle('hidden', x !== id)); const answerReview = document.createElement('div'); answerReview.className = 'grid'; $('correct').after(answerReview);
   function table(list) { return '<table><tr><th>Miejsce</th><th>Uczeń</th><th>Punkty</th></tr>' + list.map(p => `<tr><td>${p.place}</td><td>${esc(p.name)}</td><td>${p.score}</td></tr>`).join('') + '</table>'; }
   function reset(message) {
     session = current = null; save('quiz-host', null); show('lobby'); $('roomInfo').classList.add('hidden');
@@ -61,7 +61,7 @@
       $('answerProgress').textContent = `Odpowiedziało: ${s.players.filter(p => p.answered).length} / ${s.players.length}`;
     }
     if (s.status === 'results') {
-      show('results'); const r = s.results; $('correct').textContent = 'Poprawna odpowiedź: ' + r.correctText;
+      show('results'); const r = s.results; $('correct').textContent = 'Poprawna odpowiedź: ' + r.correctText; answerReview.innerHTML = r.answers.map((a,i) => '<div class="choice" style="background:' + (i === r.correct ? '#14532d' : '#7f1d1d') + ';color:#fff">' + 'ABCD'[i] + '. ' + esc(a) + '</div>').join('');
       $('bars').innerHTML = r.counts.map((n, i) => `<div class="barrow"><b>${'ABCD'[i]}</b><div class="bar"><div class="fill" style="width:${n / Math.max(1, ...r.counts) * 100}%"></div></div><b>${n}</b></div>`).join('');
       $('topTable').innerHTML = table(r.leaderboard.slice(0, 5)); $('restTable').innerHTML = r.leaderboard.length > 5 ? table(r.leaderboard.slice(5)) : '';
       $('next').textContent = s.questionIndex === s.total - 1 ? 'Pokaż końcowe wyniki 🏆' : 'Następne pytanie';
