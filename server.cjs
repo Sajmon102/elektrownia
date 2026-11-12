@@ -36,9 +36,9 @@ function createQuizServer(options = {}) {
     if (['localhost', '127.0.0.1', '[::1]'].includes(u.hostname)) u.hostname = options.lanAddress || lanAddresses()[0] || 'localhost';
     return u.origin;
   }
-  const board = r => [...r.players.values()].sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt).map((p, i) => ({ id: p.id, name: p.name, score: p.score, place: i + 1 }));
+  function shuffleQuestion(q) { const order = q.a.map((_, i) => i); for (let i = order.length - 1; i > 0; i--) { const j = randomInt(i + 1); [order[i], order[j]] = [order[j], order[i]]; } return { ...q, a: order.map(i => q.a[i]), correct: order.indexOf(q.correct) }; } const board = r => [...r.players.values()].sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt).map((p, i) => ({ id: p.id, name: p.name, score: p.score, place: i + 1 }));
   function state(r) {
-    const q = questions[r.questionIndex];
+    const q = r.questions[r.questionIndex];
     return { code: r.code, status: r.status, total: questions.length, questionIndex: r.questionIndex, deadline: r.deadline, serverNow: Date.now(), hostConnected: r.hostConnected,
       players: [...r.players.values()].map(p => ({ id: p.id, name: p.name, score: r.status === 'question' ? p.previousScore : p.score, connected: !!p.socketId, answered: r.answers.has(p.id) })),
       question: r.status === 'question' ? { q: q.q, a: q.a, index: r.questionIndex, total: questions.length } : null,
@@ -52,9 +52,9 @@ function createQuizServer(options = {}) {
   function closeQuestion(r) {
     if (r.status !== 'question') return;
     clearTimeout(r.timer); r.status = 'results'; r.deadline = null;
-    const q = questions[r.questionIndex], counts = Array(q.a.length).fill(0);
-    for (const answer of r.answers.values()) counts[answer]++;
-    r.results = { counts, correct: q.correct, correctText: q.a[q.correct], answers: q.a, leaderboard: board(r), questionText: q.q }; sendState(r);
+    const q = r.questions[r.questionIndex], counts = Array(q.a.length).fill(0), correctCounts = Array(q.a.length).fill(0), wrongCounts = Array(q.a.length).fill(0);
+    for (const answer of r.answers.values()) { counts[answer]++; (answer === q.correct ? correctCounts : wrongCounts)[answer]++; }
+    r.results = { counts, correctCounts, wrongCounts, correct: q.correct, correctText: q.a[q.correct], answers: q.a, leaderboard: board(r), questionText: q.q }; sendState(r);
   }
   function startQuestion(r) {
     r.status = 'question'; r.answers.clear();
@@ -90,7 +90,7 @@ function createQuizServer(options = {}) {
         let code;
         do { code = String(randomInt(100000, 1000000)); } while (rooms.has(code));
         const base = baseFor(socket);
-        r = { code, token: randomUUID(), host: socket.id, hostConnected: true, players: new Map(), status: 'lobby', questionIndex: -1, answers: new Map(), deadline: null, joinUrl: `${base}/play/${code}`, entryUrl: base };
+        r = { code, token: randomUUID(), host: socket.id, hostConnected: true, players: new Map(), questions: questions.map(shuffleQuestion), status: 'lobby', questionIndex: -1, answers: new Map(), deadline: null, joinUrl: `${base}/play/${code}`, entryUrl: base };
         rooms.set(code, r); r.qr = await QRCode.toDataURL(r.joinUrl, { width: 280, margin: 2 });
         if (!socket.connected) throw new Error('Utracono połączenie.');
         socket.data.code = code; socket.join(code);
@@ -144,10 +144,10 @@ function createQuizServer(options = {}) {
       const r = bound(socket), p = r.players.get(socket.data.playerId);
       if (!p || p.socketId !== socket.id || r.status !== 'question' || r.answers.has(p.id)) throw new Error('Nie można już wysłać odpowiedzi.');
       if (Date.now() >= r.deadline) { closeQuestion(r); throw new Error('Czas na odpowiedź minął.'); }
-      if (!Number.isInteger(data.answer) || data.answer < 0 || data.answer >= questions[r.questionIndex].a.length) throw new Error('Nieprawidłowa odpowiedź.');
+      if (!Number.isInteger(data.answer) || data.answer < 0 || data.answer >= r.questions[r.questionIndex].a.length) throw new Error('Nieprawidłowa odpowiedź.');
       if (data.questionIndex !== r.questionIndex) throw new Error('To odpowiedź do poprzedniego pytania.');
       r.answers.set(p.id, data.answer);
-      if (data.answer === questions[r.questionIndex].correct) p.score += 1000;
+      if (data.answer === r.questions[r.questionIndex].correct) p.score += 1000;
       if (r.answers.size === r.players.size) closeQuestion(r); else sendState(r);
     });
     on('host:close-question', data => {
