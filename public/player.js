@@ -66,7 +66,7 @@
     if (s.status === 'results') {
       show('game'); $('progress').textContent = `Wyniki pytania ${s.questionIndex + 1}`; $('question').textContent = 'Poprawna odpowiedź: ' + s.results.correctText; $('answers').innerHTML = '';
       const me = s.results.leaderboard.find(p => p.id === session.id);
-      $('status').textContent = me ? `Miejsce: ${me.place} • Punkty: ${me.score}. Czekaj na prowadzącego.` : 'Czekaj na prowadzącego.';
+      $('status').textContent = me ? `Miejsce: ${me.place} • +${me.gained} pkt. Czekaj na prowadzącego.` : 'Czekaj na prowadzącego.';
     }
     if (s.status === 'finished') {
       show('end'); const me = s.leaderboard.find(p => p.id === session.id);

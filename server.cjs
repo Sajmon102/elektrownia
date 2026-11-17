@@ -36,7 +36,7 @@ function createQuizServer(options = {}) {
     if (['localhost', '127.0.0.1', '[::1]'].includes(u.hostname)) u.hostname = options.lanAddress || lanAddresses()[0] || 'localhost';
     return u.origin;
   }
-  function shuffleQuestion(q) { const order = q.a.map((_, i) => i); for (let i = order.length - 1; i > 0; i--) { const j = randomInt(i + 1); [order[i], order[j]] = [order[j], order[i]]; } return { ...q, a: order.map(i => q.a[i]), correct: order.indexOf(q.correct) }; } const board = r => [...r.players.values()].sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt).map((p, i) => ({ id: p.id, name: p.name, score: p.score, place: i + 1 }));
+  function shuffleQuestion(q) { const order = q.a.map((_, i) => i); for (let i = order.length - 1; i > 0; i--) { const j = randomInt(i + 1); [order[i], order[j]] = [order[j], order[i]]; } return { ...q, a: order.map(i => q.a[i]), correct: order.indexOf(q.correct) }; } const board = r => [...r.players.values()].sort((a, b) => b.score - a.score || a.joinedAt - b.joinedAt).map((p, i) => ({ id: p.id, name: p.name, score: p.score, gained: Math.max(0, p.score - p.previousScore), place: i + 1 }));
   function state(r) {
     const q = r.questions[r.questionIndex];
     return { code: r.code, status: r.status, total: questions.length, questionIndex: r.questionIndex, deadline: r.deadline, serverNow: Date.now(), hostConnected: r.hostConnected,
